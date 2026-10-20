@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f2e9">
+  <meta name="description" content="把焦虑交给古今科学家，把一句 Accept 留给你。原创科学家祝福卡生成器。">
+  <title>Accept, please.｜论文录用祝福站</title>
+  <style>
+    :root {
+      --paper: #f7f2e9;
+      --paper-2: #efe8dc;
+      --ink: #1e2625;
+      --muted: #6d7772;
+      --line: rgba(30,38,37,.16);
+      --coral: #ef684d;
+      --coral-dark: #c64f3c;
+      --mint: #b8dbce;
+      --yellow: #f1cf65;
+      --blue: #a7c9db;
+      --white: #fffdf8;
+      --shadow: 0 22px 50px rgba(39,44,40,.11);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+      z-index: 10;
+      mix-blend-mode: multiply;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .topbar {
+      height: 74px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--line); position: relative; z-index: 2;
+    }
+    .brand { display:flex; align-items:center; gap: 11px; font-weight: 800; letter-spacing: -.03em; }
+    .brand-mark { width: 30px; height:30px; border-radius: 50%; background: var(--coral); display:grid; place-items:center; color:var(--white); font-weight:900; font-size:15px; transform: rotate(-11deg); box-shadow: 3px 3px 0 var(--ink); }
+    .brand span { font-size: 15px; }
+    .nav { display:flex; gap: 26px; color: var(--muted); font-size: 13px; }
+    .nav a:hover { color: var(--ink); }
+    .nav-cta { padding: 10px 16px; color: var(--ink); border:1px solid var(--line); border-radius: 999px; transition:.2s; }
+    .nav-cta:hover { background: var(--ink); color:var(--paper); border-color:var(--ink); }
+    .hero { position:relative; padding: 86px 0 104px; min-height: 630px; display:grid; grid-template-columns: 1.1fr .9fr; align-items:center; gap: 50px; }
+    .hero:after { content:""; width: 430px; height: 430px; border-radius: 50%; background: var(--mint); position:absolute; right:-150px; top:34px; z-index:-1; opacity:.55; }
+    .eyebrow { display:inline-flex; align-items:center; gap:9px; font-size: 12px; letter-spacing:.11em; text-transform:uppercase; font-weight: 800; color:var(--coral-dark); margin-bottom: 22px; }
+    .eyebrow i { width: 9px; height:9px; display:inline-block; border-radius:50%; background:var(--coral); box-shadow: 0 0 0 4px rgba(239,104,77,.15); }
+    h1 { font-size: clamp(52px, 7.2vw, 96px); line-height:.93; letter-spacing:-.075em; max-width: 700px; margin:0 0 28px; font-weight: 850; }
+    h1 em { font-style:normal; color:var(--coral); position:relative; white-space:nowrap; }
+    h1 em:after { content:""; height:9px; position:absolute; left:2px; right:3px; bottom:-11px; background:var(--yellow); transform: rotate(-1.8deg); z-index:-1; }
+    .hero-copy { max-width: 500px; color:var(--muted); font-size: 17px; line-height:1.75; }
+    .scene-pill { display:inline-flex; align-items:center; gap:8px; margin-top:24px; padding:8px 12px; border:1px dashed var(--line); border-radius:999px; color:var(--ink); background:rgba(255,253,248,.58); font-size:11px; }
+    .scene-pill b { color:var(--coral-dark); }
+    .hero-actions { display:flex; gap:12px; align-items:center; margin-top:34px; flex-wrap:wrap; }
+    .btn { border:0; border-radius: 999px; min-height: 48px; padding: 0 22px; display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:750; transition: transform .2s, box-shadow .2s, background .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { color:var(--white); background:var(--ink); box-shadow: 4px 4px 0 var(--coral); }
+    .btn-primary:hover { box-shadow: 6px 6px 0 var(--coral); }
+    .btn-secondary { color:var(--ink); background:transparent; border:1px solid var(--line); }
+    .btn-secondary:hover { background:var(--white); }
+    .hero-note { margin:22px 0 0; font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px; }
+    .hero-note b { color:var(--ink); }
+    .hero-visual { position:relative; min-height:400px; display:grid; place-items:center; }
+    .orbit { width: 340px; height:340px; border:1px solid rgba(30,38,37,.24); border-radius:50%; position:relative; transform:rotate(-12deg); }
+    .orbit:before,.orbit:after { content:""; position:absolute; border-radius:50%; background:var(--coral); }
+    .orbit:before { width:12px; height:12px; top:34px; left:73px; box-shadow: 222px 195px 0 var(--yellow), 112px 280px 0 var(--ink); }
+    .orbit:after { width:7px; height:7px; right:27px; top:90px; background:var(--blue); }
+    .hero-card { width: 286px; position:absolute; transform: rotate(7deg); background:var(--white); border:1px solid rgba(30,38,37,.22); box-shadow: var(--shadow); padding:22px; border-radius:20px; }
+    .hero-card small { color:var(--muted); font-size:11px; letter-spacing:.08em; }
+    .hero-card .scribble { font-size: 29px; line-height:1; letter-spacing:-.05em; font-weight:900; margin:18px 0 30px; }
+    .hero-card .scribble span { color:var(--coral); }
+    .hero-card-footer { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); border-top:1px solid var(--line); padding-top:13px; }
+    .badge { display:inline-flex; padding: 5px 8px; border-radius:4px; background:var(--yellow); color:var(--ink); font-size:10px; font-weight:800; transform:rotate(-3deg); }
+    .section { padding: 112px 0; border-top:1px solid var(--line); }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:26px; margin-bottom:42px; }
+    .kicker { color:var(--coral-dark); text-transform:uppercase; font-size:11px; letter-spacing:.14em; font-weight:850; }
+    h2 { font-size: clamp(34px,5vw,60px); line-height:.98; letter-spacing:-.06em; margin:10px 0 0; max-width: 670px; }
+    .section-intro { max-width: 280px; color:var(--muted); font-size:14px; line-height:1.7; }
+    .scientist-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; }
+    .scientist { appearance:none; text-align:left; border:1px solid var(--line); background: rgba(255,253,248,.48); border-radius:20px; padding:10px; transition:.22s; position:relative; color:var(--ink); }
+    .scientist:hover { transform:translateY(-5px); border-color:var(--ink); box-shadow:0 12px 30px rgba(39,44,40,.1); }
+    .scientist.selected { background:var(--ink); color:var(--white); border-color:var(--ink); transform:translateY(-5px) rotate(-1deg); box-shadow: 5px 5px 0 var(--coral); }
+    .portrait { aspect-ratio:1; border-radius:14px; display:grid; place-items:center; position:relative; overflow:hidden; margin-bottom:12px; }
+    .portrait svg { width:84%; height:84%; }
+    .portrait:after { content:"原创矢量头像"; position:absolute; left:8px; bottom:7px; padding:3px 5px; border-radius:3px; background:rgba(255,253,248,.82); color:var(--ink); font-size:8px; font-weight:800; }
+    .scientist.selected .portrait:after { background:rgba(30,38,37,.78); color:var(--white); }
+    .scientist-name { display:flex; justify-content:space-between; align-items:end; gap:8px; font-weight:800; font-size:14px; }
+    .scientist-name small { font-size:10px; color:var(--muted); font-weight:600; }
+    .scientist.selected .scientist-name small { color:#aab7b3; }
+    .check { position:absolute; top:16px; right:16px; width:22px; height:22px; border-radius:50%; background:var(--coral); color:var(--white); display:none; place-items:center; font-size:13px; font-weight:900; }
+    .scientist.selected .check { display:grid; }
+    .generator { background:var(--ink); color:var(--white); border-radius:28px; padding: 52px; position:relative; overflow:hidden; }
+    .generator:after { content:"∿"; position:absolute; right:35px; top:-32px; color:var(--coral); font-size:180px; transform:rotate(10deg); opacity:.55; font-family:serif; }
+    .generator .kicker { color:var(--yellow); }
+    .generator h2 { max-width:560px; }
+    .generator-lead { max-width:510px; color:#b6c1bd; margin:17px 0 37px; font-size:15px; }
+    .generator-layout { display:grid; grid-template-columns: 1fr .9fr; gap:35px; align-items:start; position:relative; z-index:1; }
+    .form { display:grid; gap:19px; }
+    .field label { display:block; color:#bdc8c4; font-size:12px; margin-bottom:8px; }
+    .field input { width:100%; background:rgba(255,255,255,.08); color:var(--white); border:1px solid rgba(255,255,255,.24); border-radius:12px; padding:15px 16px; outline:none; transition:.2s; }
+    .field input::placeholder { color:#83928c; }
+    .field input:focus { border-color:var(--yellow); box-shadow: 0 0 0 3px rgba(241,207,101,.15); }
+    .scene-toggle { display:flex; gap:8px; margin-bottom:2px; }
+    .scene-toggle button { flex:1; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.06); color:#c0cbc6; border-radius:10px; padding:11px 10px; font-size:12px; transition:.2s; }
+    .scene-toggle button.active { background:var(--yellow); border-color:var(--yellow); color:var(--ink); font-weight:800; }
+    .form-meta { display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
+    .counter { color:#899690; font-size:11px; }
+    .generate { background:var(--coral); color:var(--white); box-shadow:none; }
+    .generate:hover { background:var(--coral-dark); }
+    .preview-wrap { position:relative; }
+    .preview-label { font-size:11px; color:#98a8a1; letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px; }
+    .blessing-card { background:var(--paper); color:var(--ink); border-radius:18px; padding:24px; min-height:260px; position:relative; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.22); }
+    .blessing-card:before { content:""; position:absolute; width:170px; height:170px; border-radius:50%; background:var(--mint); right:-70px; top:-70px; opacity:.75; }
+    .blessing-card .stamp { display:inline-flex; align-items:center; gap:6px; font-size:10px; font-weight:850; letter-spacing:.09em; color:var(--coral-dark); }
+    .blessing-card h3 { position:relative; margin:34px 0 12px; font-size:22px; line-height:1.15; letter-spacing:-.04em; max-width:320px; }
+    .blessing-card p { position:relative; font-size:13px; line-height:1.7; color:#59635f; max-width:310px; margin:0; }
+    .card-sign { position:absolute; right:20px; bottom:18px; color:#68746e; font-size:11px; font-weight:700; }
+    .card-sign b { color:var(--ink); }
+    .card-actions { display:flex; gap:9px; margin-top:13px; }
+    .card-actions button { border:1px solid rgba(255,255,255,.26); background:transparent; color:#d4deda; border-radius:999px; padding:8px 11px; font-size:11px; }
+    .card-actions button:hover { border-color:var(--yellow); color:var(--yellow); }
+    .price-section { display:grid; grid-template-columns: 1fr 1fr; gap:55px; align-items:start; }
+    .price-copy p { color:var(--muted); max-width:450px; font-size:15px; line-height:1.75; }
+    .price-note { display:flex; gap:11px; align-items:flex-start; margin-top:26px; font-size:12px; color:var(--muted); max-width:420px; }
+    .price-note span { display:grid; place-items:center; flex:0 0 24px; height:24px; background:var(--yellow); border-radius:50%; font-weight:900; }
+    .plans { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px; }
+    .plan { appearance:none; width:100%; text-align:left; color:var(--ink); background:rgba(255,253,248,.62); border:1px solid var(--line); border-radius:18px; padding:20px; display:flex; flex-direction:column; align-items:stretch; justify-content:space-between; gap:17px; transition:.2s; }
+    .plan:hover { border-color:var(--ink); transform:translateY(-3px); }
+    .plan.selected { border:2px solid var(--ink); box-shadow:6px 6px 0 var(--mint); background:var(--white); transform:translateY(-3px); }
+    .plan.tier-01 { background:#f3eadb; }
+    .plan.tier-05 { background:#e9f0e9; }
+    .plan.tier-12 { background:#e5edf4; }
+    .plan h3 { margin:0 0 5px; font-size:16px; letter-spacing:-.02em; }
+    .plan p { margin:0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .tier-top { display:flex; justify-content:space-between; align-items:start; gap:10px; }
+    .tier-kicker { font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:800; }
+    .tier-intensity { display:inline-flex; align-items:center; gap:5px; font-size:10px; color:var(--coral-dark); font-weight:800; white-space:nowrap; }
+    .tier-intensity i { width:7px; height:7px; border-radius:50%; background:var(--coral); box-shadow:8px 0 var(--coral),16px 0 rgba(239,104,77,.25); }
+    .tier-05 .tier-intensity i { box-shadow:8px 0 var(--coral),16px 0 var(--coral); }
+    .tier-12 .tier-intensity i { box-shadow:8px 0 var(--coral),16px 0 var(--coral),24px 0 var(--coral); }
+    .tier-bottom { display:flex; align-items:end; justify-content:space-between; gap:10px; }
+    .plan-price { text-align:right; white-space:nowrap; }
+    .plan-price strong { display:block; font-size:25px; letter-spacing:-.05em; }
+    .plan-price small { color:var(--muted); font-size:10px; }
+    .tier-scientists { color:var(--muted); font-size:11px; margin-top:9px; }
+    .tier-scientists b { color:var(--ink); }
+    .price-logic { display:inline-flex; margin-top:18px; padding:8px 11px; border:1px dashed var(--line); border-radius:10px; font-size:11px; color:var(--ink); background:rgba(255,253,248,.5); }
+    .popular { display:inline-block; font-size:9px; letter-spacing:.09em; background:var(--coral); color:var(--white); padding:4px 7px; border-radius:4px; transform:rotate(-2deg); margin-bottom:8px; }
+    .footer { padding: 34px 0 46px; border-top:1px solid var(--line); display:flex; align-items:flex-start; justify-content:space-between; gap:30px; color:var(--muted); font-size:11px; }
+    .footer p { max-width:530px; line-height:1.7; margin:0; }
+    .footer-brand { color:var(--ink); font-weight:800; font-size:14px; }
+    .modal-backdrop { position:fixed; inset:0; z-index:30; background:rgba(18,25,23,.64); display:none; place-items:center; padding:20px; }
+    .modal-backdrop.open { display:grid; }
+    .modal { width:min(480px,100%); background:var(--paper); color:var(--ink); border-radius:24px; padding:28px; position:relative; box-shadow:0 30px 70px rgba(0,0,0,.3); }
+    .modal-close { position:absolute; right:16px; top:15px; width:30px; height:30px; border:0; border-radius:50%; background:var(--paper-2); color:var(--ink); font-size:18px; }
+    .modal h3 { font-size:26px; letter-spacing:-.05em; margin:0 0 8px; }
+    .modal p { margin:0 0 20px; color:var(--muted); font-size:13px; }
+    .modal-card { background:var(--white); border-radius:16px; padding:20px; border:1px solid var(--line); margin-bottom:16px; }
+    .modal-card .big { font-size:21px; font-weight:850; line-height:1.2; letter-spacing:-.04em; margin:9px 0; }
+    .modal-actions { display:flex; gap:10px; }
+    .modal-actions .btn { flex:1; }
+    .payment-modal { width:min(420px,100%); text-align:center; }
+    .payment-modal h3 { margin-top:8px; }
+    .payment-amount { color:var(--coral-dark); font-size:32px; line-height:1; font-weight:900; letter-spacing:-.06em; margin:14px 0 6px; }
+    .payment-sub { color:var(--muted); font-size:12px; margin:0 0 15px; }
+    .pay-methods { display:flex; gap:8px; margin:0 auto 14px; }
+    .pay-method { flex:1; border:1px solid var(--line); background:var(--white); border-radius:10px; padding:8px 6px; color:var(--muted); font-size:11px; }
+    .pay-method.active { border-color:#159447; color:#159447; font-weight:800; background:#eef9f1; }
+    .pay-method.disabled { opacity:.48; }
+    .qr-preview { width:min(250px,100%); margin:0 auto 14px; padding:9px; background:var(--white); border-radius:14px; border:1px solid var(--line); }
+    .qr-preview img { display:block; width:100%; height:auto; border-radius:8px; }
+    .manual-note { margin:0 auto 16px; color:var(--muted); font-size:11px; line-height:1.6; max-width:300px; }
+    .manual-note b { color:var(--ink); }
+    .egg-modal { width:min(520px,100%); text-align:center; background:var(--ink); color:var(--white); }
+    .egg-modal h3 { margin:14px 0 8px; font-size:34px; letter-spacing:-.06em; }
+    .egg-modal p { color:#c6d0cc; font-size:14px; line-height:1.7; margin:0 auto 16px; max-width:380px; }
+    .egg-stars { color:var(--yellow); font-size:28px; letter-spacing:10px; animation:floatStars 2.4s ease-in-out infinite; }
+    .egg-note { border:1px dashed rgba(255,255,255,.28); border-radius:12px; padding:11px 13px; color:#b8c4bf; font-size:11px; line-height:1.6; margin:0 auto 19px; max-width:380px; }
+    .egg-modal .btn-secondary { color:var(--white); border-color:rgba(255,255,255,.3); }
+    @keyframes floatStars { 50% { transform:translateY(-5px) rotate(-2deg); } }
+    .toast { position:fixed; bottom:24px; left:50%; transform:translate(-50%, 20px); background:var(--ink); color:var(--white); padding:11px 16px; border-radius:999px; font-size:12px; opacity:0; pointer-events:none; transition:.25s; z-index:50; }
+    .toast.show { opacity:1; transform:translate(-50%,0); }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns:1fr; padding-top:60px; }
+      .hero-visual { min-height:310px; margin-top:-15px; }
+      .scientist-grid { grid-template-columns:repeat(3, 1fr); }
+      .generator-layout, .price-section { grid-template-columns:1fr; }
+      .generator { padding:36px 28px; }
+      .price-section { gap:30px; }
+    }
+    @media (max-width: 600px) {
+      .shell { width:min(100% - 28px, 1180px); }
+      .topbar { height:62px; }
+      .nav { gap:10px; }
+      .nav a:not(.nav-cta) { display:none; }
+      h1 { font-size: clamp(48px, 15vw, 74px); }
+      .hero { min-height:auto; padding:64px 0 74px; }
+      .hero-copy { font-size:15px; }
+      .hero-visual { transform:scale(.86); margin: -20px -20px -35px; }
+      .section { padding:78px 0; }
+      .section-head { display:block; }
+      .section-intro { margin-top:18px; }
+      .scientist-grid { grid-template-columns:repeat(2, 1fr); gap:10px; }
+      .scientist-name { font-size:13px; }
+      .generator { border-radius:20px; padding:28px 19px; }
+      .generator:after { right:-8px; top:-46px; }
+      .generator h2 { font-size:38px; }
+      .blessing-card { min-height:245px; }
+      .footer { display:block; }
+      .footer-brand { display:block; margin-bottom:12px; }
+      .plans { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar shell">
+    <a href="#top" class="brand"><span class="brand-mark">A</span><span>Accept, please.</span></a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#scientists">科学家阵容</a>
+      <a href="#pricing">怎么收费</a>
+      <a href="#generator" class="nav-cta">制作祝福卡 ↗</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div>
+        <div class="eyebrow"><i></i> paper acceptance emotional support</div>
+        <h1>刚想到一个 idea？先把欧气叫来。</h1>
+        <p class="hero-copy">你把 idea 或 paper 交给我们，伟大科学家负责把一句“这篇能发”送到你的收件箱。先收下彩蛋祝福，再决定要不要用一杯咖啡支持它。</p>
+        <div class="scene-pill">✦ <b>idea → paper → Accept</b> · 你的科研广告位已经上线</div>
+        <div class="hero-actions">
+          <a href="#generator" class="btn btn-primary">召集伟大科学家 <span>↘</span></a>
+          <a href="#scientists" class="btn btn-secondary">先看看阵容</a>
+        </div>
+        <p class="hero-note"><b>先免费玩</b> · 彩蛋出现后才会看到支持二维码</p>
+      </div>
+      <div class="hero-visual" aria-label="祝福卡示意图">
+        <div class="orbit"></div>
+        <div class="hero-card">
+          <span class="badge">FIELD NOTE 001</span>
+          <div class="scribble">你的论文<br>会被 <span>接住</span>。</div>
+          <div class="hero-card-footer"><span>from a friendly universe</span><span>∞</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="scientists">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="kicker">01 / choose your witness</div><h2>选一位，替你给审稿系统施加一点宇宙压力。</h2></div>
+          <p class="section-intro">每位科学家都有自己的语气。你可以随时切换，预览会跟着变。</p>
+        </div>
+        <div class="scientist-grid" role="list">
+          <button class="scientist selected" data-scientist="einstein" role="listitem" aria-pressed="true">
+            <span class="check">✓</span><div class="portrait" style="background:#f0d889"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M29 105c4-25 17-36 31-36s28 11 32 36" fill="#e95f49"/><circle cx="60" cy="49" r="25" fill="#f5c5a6"/><path d="M34 48c-3-18 8-33 27-33 17 0 28 13 25 29-8-8-15-10-24-9-9 1-17 7-28 13Z" fill="#342d2a"/><path d="M36 51c-5-4-10-1-10 5 0 7 7 8 12 3m44-8c5-4 10-1 10 5 0 7-7 8-12 3" fill="none" stroke="#342d2a" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="51" r="3" fill="#342d2a"/><circle cx="70" cy="51" r="3" fill="#342d2a"/><path d="M50 64c6 5 13 5 20 0" fill="none" stroke="#342d2a" stroke-width="2" stroke-linecap="round"/></svg></div><span class="scientist-name">爱因斯坦 <small>E = mc²</small></span>
+          </button>
+          <button class="scientist" data-scientist="newton" role="listitem" aria-pressed="false"><span class="check">✓</span><div class="portrait" style="background:#b8dbce"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M26 107c5-24 18-36 34-36s28 12 34 36" fill="#324c58"/><circle cx="60" cy="49" r="24" fill="#e8b995"/><path d="M36 47c-3-19 4-33 24-34 20-1 28 14 25 35-7-4-8-17-20-19-15-3-22 12-29 18Z" fill="#ddd7cd"/><path d="M47 48h-13m39 0h13" stroke="#3f4a4b" stroke-width="2"/><circle cx="45" cy="48" r="8" fill="none" stroke="#3f4a4b" stroke-width="2"/><circle cx="75" cy="48" r="8" fill="none" stroke="#3f4a4b" stroke-width="2"/><path d="M53 65c4 3 10 3 14 0" fill="none" stroke="#3f4a4b" stroke-width="2"/></svg></div><span class="scientist-name">牛顿 <small>gravity club</small></span></button>
+          <button class="scientist" data-scientist="curie" role="listitem" aria-pressed="false"><span class="check">✓</span><div class="portrait" style="background:#c8b6dc"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 107c3-24 15-37 30-37s28 13 31 37" fill="#51476c"/><circle cx="60" cy="49" r="24" fill="#f0c9a8"/><path d="M35 53c-2-25 7-39 25-39 18 0 26 14 25 38-8-4-7-21-24-23-15-2-17 14-26 24Z" fill="#6e5752"/><path d="M50 51c6 4 14 4 20 0" fill="none" stroke="#3d3436" stroke-width="2"/><circle cx="50" cy="51" r="2.5" fill="#3d3436"/><circle cx="70" cy="51" r="2.5" fill="#3d3436"/><path d="M54 63c4 2 8 2 12 0" fill="none" stroke="#3d3436" stroke-width="2"/><circle cx="60" cy="83" r="7" fill="#f1cf65" opacity=".9"/></svg></div><span class="scientist-name">居里夫人 <small>radioactive calm</small></span></button>
+          <button class="scientist" data-scientist="darwin" role="listitem" aria-pressed="false"><span class="check">✓</span><div class="portrait" style="background:#e9b69d"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M28 107c3-24 16-37 32-37s28 13 32 37" fill="#6b4a3c"/><circle cx="60" cy="49" r="24" fill="#ebc19c"/><path d="M35 48c-1-20 9-35 26-35 16 0 26 14 24 34-8-11-19-12-27-9-9 3-15 5-23 10Z" fill="#8d7366"/><path d="M46 48h-7m35 0h7" stroke="#3b3030" stroke-width="2"/><circle cx="47" cy="48" r="7" fill="none" stroke="#3b3030" stroke-width="2"/><circle cx="73" cy="48" r="7" fill="none" stroke="#3b3030" stroke-width="2"/><path d="M47 65c7 5 19 5 26 0" fill="none" stroke="#3b3030" stroke-width="2"/><path d="M50 73c3 8 17 8 20 0" fill="none" stroke="#8d7366" stroke-width="5" stroke-linecap="round"/></svg></div><span class="scientist-name">达尔文 <small>survival mode</small></span></button>
+          <button class="scientist" data-scientist="tesla" role="listitem" aria-pressed="false"><span class="check">✓</span><div class="portrait" style="background:#a7c9db"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M25 107c4-25 18-37 35-37s30 12 35 37" fill="#33465d"/><circle cx="60" cy="49" r="24" fill="#e6bd9d"/><path d="M36 48c-1-20 9-35 25-35 19 0 26 15 24 37-8-12-16-17-27-16-10 1-14 8-22 14Z" fill="#3e434b"/><path d="M49 50c7 3 15 3 22 0" fill="none" stroke="#2e3340" stroke-width="2"/><circle cx="50" cy="51" r="2.5" fill="#2e3340"/><circle cx="70" cy="51" r="2.5" fill="#2e3340"/><path d="M53 65c5 2 9 2 14 0" fill="none" stroke="#2e3340" stroke-width="2"/><path d="M61 19v-9m0 48v-9m-22-1-8 5m51 0 8 5" stroke="#ef684d" stroke-width="2" stroke-linecap="round"/></svg></div><span class="scientist-name">特斯拉 <small>high voltage</small></span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="generator">
+      <div class="shell">
+        <div class="generator">
+          <div class="kicker">02 / make it yours</div>
+          <h2>把 idea 或 paper 放进来，召集科学家。</h2>
+          <p class="generator-lead">这是一个很短的科研广告：先说你刚想到什么，再让伟大科学家替你把欧气推到下一步。</p>
+          <div class="generator-layout">
+            <div class="form">
+              <div class="scene-toggle" role="group" aria-label="选择当前场景"><button type="button" class="active" data-scene="idea">我刚想到一个 idea</button><button type="button" data-scene="paper">我刚写完一篇 paper</button></div>
+              <div class="field"><label for="paper-title" id="paper-label">你的 idea 是什么？</label><input id="paper-title" maxlength="56" placeholder="例如：让等待审稿的人先收到一封好消息" value="我的下一个好 idea"></div>
+              <div class="field"><label for="venue">想投哪里（可选）</label><input id="venue" maxlength="36" placeholder="例如：Nature / NeurIPS / 还没想好" value="目标期刊"></div>
+              <div class="field"><label for="tier">发表目标等级</label><select id="tier" style="width:100%;background:rgba(255,255,255,.08);color:var(--white);border:1px solid rgba(255,255,255,.24);border-radius:12px;padding:15px 16px;outline:none"><option value="0.1">¥0.1 · 普刊 / 预印本 · 一口气</option><option value="0.5">¥0.5 · 核心 / EI / 普通 SCI · 加一点力</option><option value="1.2">¥1.2 · Q1 / 顶会 / 顶刊 · 全员到场</option></select></div>
+              <div class="form-meta"><span class="counter"><span id="count">11</span> / 56</span><button class="btn generate" id="generate">召集欧气 ↗</button></div>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-label">free preview / 当前预览</div>
+              <div class="blessing-card" id="blessing-card">
+                <div class="stamp">✦ <span id="preview-tier">免费预览 · 1 句</span></div>
+                <h3 id="blessing-title">爱因斯坦说：你的论文，会被接住。</h3>
+                <p id="blessing-text">给正在等待 <b>目标期刊</b> 回信的你：先把焦虑放在椅子上，去喝一口水。宇宙已经在悄悄把“Accept”排进日程。</p>
+                <div class="card-sign">— <b id="sign-name">A. Einstein</b>（大概）</div>
+              </div>
+              <div class="card-actions"><button id="share-card">分享祝福卡</button><button id="download-card">下载卡片 SVG</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="shell price-section">
+        <div class="price-copy"><div class="kicker">03 / a tiny thank-you</div><h2>一块钱以内，也能收到一封宇宙回信。</h2><p>先免费生成；再用小额微支付选择仪式感。¥0.1、¥0.5、¥1.2 对应不同祝福浓度和科学家阵容，价格只是情绪价值，不代表录用概率。</p><div class="price-logic">目标越卷 ↑　→　祝福越浓 ↑　→　大佬越多 ↑</div><div class="price-note"><span>✓</span><div>支付接入暂时保留为占位按钮。聚合码或商户接口接入后，可替换为微信支付 / 支付宝。</div></div></div>
+        <div class="plans">
+          <button class="plan tier-01 selected" data-tier="0.1" aria-pressed="true"><div class="tier-top"><div><div class="tier-kicker">普刊 / 预印本</div><h3>一口气</h3><p>1 位陪跑科学家 · 1 句短祝福 · 标准卡片</p></div><span class="tier-intensity"><i></i>轻</span></div><div class="tier-bottom"><span class="tier-scientists"><b>达尔文 / 特斯拉</b><br>陪你把等待过完</span><div class="plan-price"><strong>¥ 0.1</strong><small>一次性解锁</small></div></div></button>
+          <button class="plan tier-05" data-tier="0.5" aria-pressed="false"><div class="tier-top"><div><div class="tier-kicker">核心 / EI / 普通 SCI</div><h3>加一点力</h3><p>1 位实验室合作者 · 3 句祝福 · 高清卡</p></div><span class="tier-intensity"><i></i>稳</span></div><div class="tier-bottom"><span class="tier-scientists"><b>牛顿 / 居里夫人</b><br>认真，但不让钱包紧张</span><div class="plan-price"><strong>¥ 0.5</strong><small>一次性解锁</small></div></div></button>
+          <button class="plan tier-12" data-tier="1.2" aria-pressed="false"><div class="tier-top"><div><div class="tier-kicker">Q1 / 顶会 / 顶刊</div><h3>全员到场</h3><p>5 位宇宙理事会 · 仪式版长祝福 · 高清分享卡</p></div><span class="tier-intensity"><i></i>浓</span></div><div class="tier-bottom"><span class="tier-scientists"><b>爱因斯坦、牛顿、居里夫人等</b><br>让 Accept 更有排面</span><div class="plan-price"><strong>¥ 1.2</strong><small>一次性解锁</small></div></div></button>
+          <button class="btn btn-primary" id="pay-placeholder" style="width:100%; grid-column:1/-1; margin-top:5px;">支付占位 · ¥0.1 <span>↗</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer"><div class="footer-brand">Accept, please. ✦</div><p>这是一个原创的情绪价值小站。页面中的科学家头像为原创矢量插画；祝福文案为当代创作，<b>不是历史人物的真实引语，也不代表任何人物、机构或期刊的 endorsement。</b></p><div>© 2026 / made for the waiting days</div></footer>
+
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal"><button class="modal-close" id="modal-close" aria-label="关闭">×</button><div class="kicker">share the good omen</div><h3 id="modal-title">这张卡，值得被看见。</h3><p>复制文字或直接调用设备分享。把一点好运发给还在等邮件的人。</p><div class="modal-card"><div class="stamp">✦ ACCEPT, PLEASE.</div><div class="big" id="modal-blessing">你的论文，会被接住。</div><div style="font-size:11px;color:#6d7772">原创祝福 · 非真实引语</div></div><div class="modal-actions"><button class="btn btn-secondary" id="copy-blessing">复制祝福文字</button><button class="btn btn-primary" id="native-share">系统分享 ↗</button></div></div></div>
+  <div class="modal-backdrop" id="egg-backdrop" role="dialog" aria-modal="true" aria-labelledby="egg-title"><div class="modal egg-modal"><button class="modal-close" id="egg-close" aria-label="关闭">×</button><div class="egg-stars">✦ ✦ ✦</div><div class="kicker" style="color:var(--yellow)">SCIENCE LUCK LOADED</div><h3 id="egg-title">欧气已上线。</h3><p id="egg-copy">爱因斯坦、牛顿和居里夫人刚刚路过你的 idea，顺手把“这篇能发”的可能性擦亮了一点。</p><div class="egg-note" id="egg-note">彩蛋祝福：愿你的 idea 先被自己认真对待，再被世界温柔接住。原创戏仿，非真实引语。</div><div class="modal-actions"><button class="btn btn-secondary" id="egg-keep">我先收下欧气</button><button class="btn btn-primary" id="egg-support">支持这份好运 ↗</button></div></div></div>
+  <div class="modal-backdrop" id="payment-backdrop" role="dialog" aria-modal="true" aria-labelledby="payment-title"><div class="modal payment-modal"><button class="modal-close" id="payment-close" aria-label="关闭">×</button><div class="kicker">tiny payment / 手动扫码</div><h3 id="payment-title">给你的祝福加一点浓度</h3><div class="payment-amount" id="payment-amount">¥0.1</div><p class="payment-sub" id="payment-tier-copy">一口气 · 普刊 / 预印本</p><div class="pay-methods"><div class="pay-method active">支付宝扫码</div><div class="pay-method disabled">微信支付（待添加）</div></div><div class="qr-preview"><img src="assets/alipay-qr.jpg" alt="支付宝收款码"></div><p class="manual-note"><b>请用支付宝扫一扫完成付款。</b><br>当前为手动扫码模式，付款后点击下方按钮即可继续；暂不自动核验订单。</p><div class="modal-actions"><button class="btn btn-secondary" id="payment-cancel">先不支付</button><button class="btn btn-primary" id="payment-done">我已支付，继续 ↗</button></div></div></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    const profiles = {
+      einstein: { name:'爱因斯坦', en:'A. Einstein', intro:'你的论文，会被接住。', note:'先把焦虑放在椅子上，去喝一口水。宇宙已经在悄悄把“Accept”排进日程。' },
+      newton: { name:'牛顿', en:'I. Newton', intro:'万有引力，也会把好消息拉向你。', note:'如果苹果能落地，审稿意见也会落地。把今天过完，答案正在靠近。' },
+      curie: { name:'居里夫人', en:'M. Curie', intro:'你正在发光，论文也一样。', note:'实验会有噪音，等待会有波动，但你做过的工作不会凭空消失。保持安静，保持明亮。' },
+      darwin: { name:'达尔文', en:'C. Darwin', intro:'适者投稿，强者录用。', note:'你已经从无数次修改里进化到这里。下一次适应环境的，是你的好消息。' },
+      tesla: { name:'特斯拉', en:'N. Tesla', intro:'让好运，接通你的电路。', note:'你的想法正在形成自己的电场。请保持通电，Accept 很快就会亮起。' }
+    };
+    const tiers = {
+      '0.1': { label:'普刊 / 预印本 · 一口气', preview:'免费预览 · 1 句', roster:'达尔文 / 特斯拉', mood:'轻声', intro:'愿审稿意见像苹果一样准时落地。', detail:'1 位陪跑科学家 · 1 句短祝福 · 标准卡片' },
+      '0.5': { label:'核心 / EI / 普通 SCI · 加一点力', preview:'免费预览 · 3 句', roster:'牛顿 / 居里夫人', mood:'认真', intro:'愿方法、数据与坚持，被认真看见。', detail:'1 位实验室合作者 · 3 句祝福 · 高清卡' },
+      '1.2': { label:'Q1 / 顶会 / 顶刊 · 全员到场', preview:'免费预览 · 仪式版', roster:'全员出场', mood:'浓烈', intro:'跨世纪审稿委员会已到场，愿今天的收件箱亮起 Accept。', detail:'5 位宇宙理事会 · 仪式版长祝福 · 定制落款' }
+    };
+    let active = 'einstein';
+    let activeScene = 'idea';
+    let activeTier = '0.1';
+    const titleInput = document.querySelector('#paper-title');
+    const venueInput = document.querySelector('#venue');
+    const paperLabel = document.querySelector('#paper-label');
+    const tierSelect = document.querySelector('#tier');
+    const count = document.querySelector('#count');
+    const blessingTitle = document.querySelector('#blessing-title');
+    const blessingText = document.querySelector('#blessing-text');
+    const signName = document.querySelector('#sign-name');
+    const previewTier = document.querySelector('#preview-tier');
+    const payButton = document.querySelector('#pay-placeholder');
+    const paymentBackdrop = document.querySelector('#payment-backdrop');
+    const paymentAmount = document.querySelector('#payment-amount');
+    const paymentTierCopy = document.querySelector('#payment-tier-copy');
+    const eggBackdrop = document.querySelector('#egg-backdrop');
+    const eggTitle = document.querySelector('#egg-title');
+    const eggCopy = document.querySelector('#egg-copy');
+    const eggNote = document.querySelector('#egg-note');
+    const modal = document.querySelector('#modal-backdrop');
+    const toast = document.querySelector('#toast');
+    function toastMsg(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(window.__toast); window.__toast = setTimeout(()=>toast.classList.remove('show'), 2600); }
+    function updateCount(){ count.textContent = titleInput.value.length; }
+    function render() {
+      const p = profiles[active];
+      const tier = tiers[activeTier];
+      const title = titleInput.value.trim() || '你的下一篇好论文';
+      const venue = venueInput.value.trim() || '目标期刊';
+      const cleanVenue = venue.replace(/[<>]/g,'');
+      const sceneWord = activeScene === 'idea' ? '这个 idea' : '这篇 paper';
+      blessingTitle.textContent = tier.mood + '版 · ' + p.name + '说：' + p.intro;
+      blessingText.innerHTML = '给正在等待 <b>' + cleanVenue + '</b> 回信的' + sceneWord + '《' + title.replace(/[<>]/g,'') + '》：' + p.note + ' ' + tier.intro + '<br><span style="color:#7b5a51;font-size:11px">登场层次：' + tier.roster + ' · ' + tier.detail + '</span>';
+      paperLabel.textContent = activeScene === 'idea' ? '你的 idea 是什么？' : '你的 paper 叫什么？';
+      titleInput.placeholder = activeScene === 'idea' ? '例如：让等待审稿的人先收到一封好消息' : '例如：A tiny paper about big feelings';
+      signName.textContent = p.en + ' × ' + tier.roster;
+      previewTier.textContent = tier.preview;
+      payButton.innerHTML = '支付占位 · ¥' + activeTier + ' <span>↗</span>';
+      paymentAmount.textContent = '¥' + activeTier;
+      paymentTierCopy.textContent = tier.label;
+      document.querySelector('#modal-blessing').textContent = title + ' —— ' + tier.intro;
+      updateCount();
+    }
+    document.querySelectorAll('.scene-toggle button').forEach(button => button.addEventListener('click', () => {
+      activeScene = button.dataset.scene;
+      document.querySelectorAll('.scene-toggle button').forEach(item => item.classList.toggle('active', item === button));
+      render();
+    }));
+    document.querySelectorAll('.scientist').forEach(button => button.addEventListener('click', () => {
+      active = button.dataset.scientist;
+      document.querySelectorAll('.scientist').forEach(item => { const selected = item === button; item.classList.toggle('selected', selected); item.setAttribute('aria-pressed', selected); });
+      render();
+    }));
+    document.querySelectorAll('.plan').forEach(button => button.addEventListener('click', () => {
+      activeTier = button.dataset.tier;
+      tierSelect.value = activeTier;
+      document.querySelectorAll('.plan').forEach(item => { const selected = item === button; item.classList.toggle('selected', selected); item.setAttribute('aria-pressed', selected); });
+      render();
+    }));
+    tierSelect.addEventListener('change', () => { const selected = document.querySelector('.plan[data-tier="' + tierSelect.value + '"]'); if (selected) selected.click(); });
+    [titleInput, venueInput].forEach(input => input.addEventListener('input', render));
+    document.querySelector('#generate').addEventListener('click', () => { render(); document.querySelector('#blessing-card').animate([{transform:'scale(.97)'},{transform:'scale(1)'}], {duration:300, easing:'ease-out'}); const p=profiles[active], tier=tiers[activeTier], word=activeScene==='idea'?'idea':'paper'; eggTitle.textContent = '欧气已上线。'; eggCopy.textContent = p.name + '和' + tier.roster + '刚刚路过你的' + word + '，顺手把“这篇能发”的可能性擦亮了一点。'; eggNote.textContent = '彩蛋祝福：愿你的' + word + '先被自己认真对待，再被世界温柔接住。原创戏仿，非真实引语。'; eggBackdrop.classList.add('open'); });
+    function blessingTextForShare(){ const p=profiles[active], tier=tiers[activeTier], word=activeScene==='idea'?'idea':'paper'; return titleInput.value.trim() + ' —— ' + tier.intro + '\n' + word + ' / ' + p.name + ' × ' + tier.roster + '\n来自 Accept, please.（原创祝福，非真实引语）'; }
+    document.querySelector('#share-card').addEventListener('click', () => { render(); modal.classList.add('open'); });
+    document.querySelector('#modal-close').addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('open'); });
+    document.querySelector('#copy-blessing').addEventListener('click', async () => { try { await navigator.clipboard.writeText(blessingTextForShare()); toastMsg('祝福文字已复制'); } catch { toastMsg('复制失败，请手动选择文字'); } });
+    document.querySelector('#native-share').addEventListener('click', async () => { const text=blessingTextForShare(); if(navigator.share){ try { await navigator.share({title:'Accept, please.', text}); } catch {} } else { try { await navigator.clipboard.writeText(text); toastMsg('设备暂不支持系统分享，文字已复制'); } catch { toastMsg('设备暂不支持系统分享'); } } });
+    document.querySelector('#download-card').addEventListener('click', () => {
+      const p=profiles[active], tier=tiers[activeTier], title=(titleInput.value.trim()||'你的下一篇好论文').replace(/[<&>]/g,'');
+      const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760"><rect width="1200" height="760" rx="42" fill="#f7f2e9"/><circle cx="1060" cy="80" r="190" fill="#b8dbce"/><text x="90" y="120" fill="#c64f3c" font-family="Arial,sans-serif" font-size="24" font-weight="700">✦ ACCEPT, PLEASE. / ¥${activeTier}</text><text x="90" y="310" fill="#1e2625" font-family="Arial,sans-serif" font-size="48" font-weight="800">${title}</text><text x="90" y="390" fill="#1e2625" font-family="Arial,sans-serif" font-size="42" font-weight="800">${p.name}说：${tier.intro}</text><text x="90" y="500" fill="#59635f" font-family="Arial,sans-serif" font-size="27">${tier.roster} · 原创祝福 · 非真实引语</text><text x="90" y="660" fill="#68746e" font-family="Arial,sans-serif" font-size="22">Accept, please. / 2026</text></svg>`;
+      const blob=new Blob([svg],{type:'image/svg+xml'}), url=URL.createObjectURL(blob), a=document.createElement('a'); a.href=url; a.download='accept-please-card.svg'; a.click(); URL.revokeObjectURL(url); toastMsg('卡片 SVG 已下载');
+    });
+    payButton.addEventListener('click', () => { render(); paymentBackdrop.classList.add('open'); });
+    document.querySelector('#egg-close').addEventListener('click', () => eggBackdrop.classList.remove('open'));
+    document.querySelector('#egg-keep').addEventListener('click', () => { eggBackdrop.classList.remove('open'); toastMsg('欧气已收下，愿你的收件箱亮起 Accept。'); });
+    document.querySelector('#egg-support').addEventListener('click', () => { eggBackdrop.classList.remove('open'); render(); paymentBackdrop.classList.add('open'); });
+    eggBackdrop.addEventListener('click', e => { if(e.target === eggBackdrop) eggBackdrop.classList.remove('open'); });
+    document.querySelector('#payment-close').addEventListener('click', () => paymentBackdrop.classList.remove('open'));
+    document.querySelector('#payment-cancel').addEventListener('click', () => paymentBackdrop.classList.remove('open'));
+    document.querySelector('#payment-done').addEventListener('click', () => { paymentBackdrop.classList.remove('open'); toastMsg('已记录你的选择，祝福卡可以继续生成。'); document.querySelector('#generate').focus(); });
+    paymentBackdrop.addEventListener('click', e => { if(e.target === paymentBackdrop) paymentBackdrop.classList.remove('open'); });
+    render();
+  </script>
+</body>
+</html>
